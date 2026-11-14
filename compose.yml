@@ -1,0 +1,43 @@
+services:
+  # ==========================================
+  # 1. HOST DE JOGO 01 (KasmVNC / Desktop Isolado)
+  # ==========================================
+  host01-game:
+    image: docker.io/kasmweb/core-debian-trixie:1.18.0
+    container_name: host01_game
+    restart: unless-stopped
+    privileged: true
+    ipc: host
+    shm_size: '2gb'
+    environment:
+      - TZ=America/Sao_Paulo
+      - VNC_PW=password
+    volumes:
+      - './installers:/installers:ro'
+      - '/run/media/rodrigo/97b9b0d6-284b-4b3a-93e6-f47230b40360/Games:/games:ro'
+    ports:
+      - "6901:6901"
+
+  # ==========================================
+  # 2. HOST DE JOGO 02 (Exemplo para futuro multi-container)
+  # ==========================================
+  # host02-game:
+  #   image: docker.io/kasmweb/core-xfce4:1.15.0
+  #   container_name: host02_game
+  #   restart: unless-stopped
+  #   privileged: true
+  #   ipc: host
+  #   environment:
+  #     - TZ=America/Sao_Paulo
+  #   tmpfs:
+  #     - /dev/input:rw,exec,nosuid,size=10M
+  #   volumes:
+  #     - ./host02-kasm-config:/home/kasm-user/.config
+  #   devices:
+  #     - /dev/uinput:/dev/uinput
+  #     - /dev/uhid:/dev/uhid
+  #   security_opt:
+  #     - label=disable
+  #   ports:
+  #     - "6902:6901"                 # Porta externa alterada para o Host 02
+
